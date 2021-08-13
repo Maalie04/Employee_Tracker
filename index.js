@@ -44,10 +44,12 @@ function init() {
             case "Update All Departments":
                 updateEmp()
                 break;
-
+        }
         })
     }
 
+    init()
+    
 function findDepartments() {
     db.query('SELECT * FROM department', function(err,results)
     {
