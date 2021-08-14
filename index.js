@@ -87,7 +87,6 @@ db.query('SELECT role.title AS selectedTitle, role.salary AS '), function (err,r
 }
 
 function addEmp(){
-    db.query('SELECT role.title AS selectedTitle, role.salary AS selectedSalary,'), function (err,results) {
         inquirer.prompt([
             {
                 name: "role",
@@ -95,8 +94,21 @@ function addEmp(){
                 message: "Select role....",
                 choices: choiceRole(),
             }
-        ])
-    }
+        ]).then(function(data) {
+            var roleId = choiceRole().indexOf(data.role) + 1;
+            var managerId = choiceRole().indexOf(data.manager) + 1;
+            db.query('INSERT INTO employee SET ?', function (err,results) {
+                first_name: data.first_name;
+                last_name: data.last_name;
+                manager_id: managerId;
+                role_id: roleId
+        },
+        function(err){
+            console.table(data)
+            init()
+        })
+        
+})
 }
 
 function addRole(){
@@ -142,3 +154,4 @@ managerArray.push(results[i].first_name);
     })
     return managerArray;
 }
+
