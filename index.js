@@ -38,21 +38,68 @@ function init() {
             case "View All Employees":
                 findEmployees()
                 break;
-            case "Update All Departments":
+            case "Update employee":
                 updateEmp()
                 break;
-            case "Update All Departments":
-                updateEmp()
+            case "add employee":
+                addEmp()
+                break;
+            case "add role":
+                addRole()
+                break;
+            case "add Department":
+                addDepartment()
                 break;
         }
-        })
-    }
+    })
+}
 
-    init()
-    
-function findDepartments() {
-    db.query('SELECT * FROM department', function(err,results)
-    {
-        console.log(results);
+init()
+
+function findEmployees() {
+    db.query('SELECT * FROM employee', function (err, results) {
+        console.table(results);
     });
+}
+
+function findRoles() {
+    db.query('SELECT * FROM role', function (err, results) {
+        console.table(results);
+    });
+}
+
+function findDepartments() {
+    db.query('SELECT * FROM department', function (err, results) {
+        console.table(results);
+    });
+}
+
+function addDepartment(){
+db.query('SELECT role.title AS selectedTitle, role.salary AS '), function (err,results) {
+    inquirer
+}
+}
+
+function addEmp(){
+
+}
+
+function addRole(){
+
+}
+function updateEmp() {
+    db.query('SELECT * FROM employees'), function (err, results) {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "updateEmp",
+                choices: function () {
+                    var empId = [];
+                    for (var i = 0; i < results.length; i++) {
+                        empId.push(results[i].empId)
+                    }
+                }
+            }
+        ])
+    }
 }
