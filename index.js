@@ -93,7 +93,7 @@ function addEmp(){
                 name: "role",
                 type: "list",
                 message: "Select role....",
-                choices: 
+                choices: choiceRole(),
             }
         ])
     }
@@ -126,9 +126,19 @@ function updateEmp() {
 }
 
 function choiceRole(){
-    db.query('SELECT + FROM role',function (err,results){
+    db.query('SELECT title FROM role',function (err,results){
         for (var i = 0; i < results.length; i++){
-
+roleArray.push(results[i].title);
         }
-    }
+    })
+    return roleArray;
+}
+
+function choiceManager(){
+    db.query('SELECT first_name FROM employee WHERE  manager_Id IS NULL',function (err,results){
+        for (var i = 0; i < results.length; i++){
+managerArray.push(results[i].first_name);
+        }
+    })
+    return managerArray;
 }
