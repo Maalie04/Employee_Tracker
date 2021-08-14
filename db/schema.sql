@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS empTrack;
-CREATE DATABASE empTrack;
+DROP DATABASE IF EXISTS empTrack_db;
+CREATE DATABASE empTrack_db;
 
-USE empTrack;
+USE empTrack_db;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -28,4 +28,3 @@ CREATE TABLE employee (
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
-source db/seeds.sql
