@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const table = require('console.table');
+const managerArray = [];
+const roleArray = [];
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -76,16 +78,35 @@ function findDepartments() {
 
 function addDepartment(){
 db.query('SELECT role.title AS selectedTitle, role.salary AS '), function (err,results) {
-    inquirer
+    inquirer.prompt([
+        {
+
+        }
+    ])
 }
 }
 
 function addEmp(){
-
+    db.query('SELECT role.title AS selectedTitle, role.salary AS selectedSalary,'), function (err,results) {
+        inquirer.prompt([
+            {
+                name: "role",
+                type: "list",
+                message: "Select role....",
+                choices: 
+            }
+        ])
+    }
 }
 
 function addRole(){
-
+db.query('SELECT role.title AS selectedTitle, role.salary AS '), function (err,results) {
+    inquirer.prompt([
+        {
+            
+        }
+    ])
+}
 }
 function updateEmp() {
     db.query('SELECT * FROM employees'), function (err, results) {
@@ -101,5 +122,13 @@ function updateEmp() {
                 }
             }
         ])
+    }
+}
+
+function choiceRole(){
+    db.query('SELECT + FROM role',function (err,results){
+        for (var i = 0; i < results.length; i++){
+
+        }
     }
 }
