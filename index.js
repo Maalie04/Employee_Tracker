@@ -40,13 +40,13 @@ function init() {
             case "View All Employees":
                 findEmployees()
                 break;
-            case "Update employee":
+            case "Update Employee":
                 updateEmp()
                 break;
-            case "Add employee":
+            case "Add Employee":
                 addEmp()
                 break;
-            case "Add role":
+            case "Add Role":
                 addRole()
                 break;
             case "Add Department":
@@ -78,28 +78,27 @@ function findDepartments() {
 }
 
 function addDepartment() {
-    {
-        inquirer.prompt([
+
+    inquirer.prompt([
+        {
+            name: "department",
+            type: "input",
+            message: "Enter department name: "
+        }
+    ]).then(function (data) {
+        db.query('INSERT INTO department SET ?',
             {
-                name: "department",
-                type: "input",
-                message: "Enter department name: "
-            }
-        ]).then(function (data) {
-            db.query('INSERT INTO department SET ?',
-                {
-                    name: data.department,
-                },
-                function (err) {
-                    console.table(data)
-                    init()
-                })
-        })
-    }
+                name: data.department,
+            },
+            function (err) {
+                console.table(data)
+                init()
+            });
+    })
 }
 
-function addEmp() {
-
+function  addEmp() {
+    console.log("show me something")
     inquirer.prompt([
         {
             name: "first_name",
@@ -123,24 +122,23 @@ function addEmp() {
             message: "Who is the manager? ",
             choices: choiceManager()
         }
-    ])
-        .then(function (data) {
+    ]).then(function (data) {
 
-            var roleId = choiceRole().indexOf(data.role) + 1
-            var managerId = choiceManager().indexOf(data.manager) + 1
+        var roleId = choiceRole().indexOf(data.role) + 1
+        var managerId = choiceManager().indexOf(data.manager) + 1
 
-            db.query('INSERT INTO employee ?',
-                {
-                    first_name: data.first_name,
-                    last_name: data.last_name,
-                    manager_id: managerId,
-                    role_id: roleId
-                }, function (err) {
+        db.query('INSERT INTO employee ?',
+            {
+                first_name: data.first_name,
+                last_name: data.last_name,
+                manager_id: managerId,
+                role_id: roleId
+            }, function (err) {
                 console.table(data)
                 init()
-            })
-        })
-    
+            });
+    })
+
 }
 
 
@@ -166,66 +164,66 @@ function addRole() {
                 function (err) {
                     console.table(results)
                     init()
-                }
-            )
+                });
+            
         })
     })
 
 }
 function updateEmp() {
-            db.query('SELECT * employee.last_name, role.title FROM employee JOIN role ON employee.role_id;', function (err, results) {
-                inquirer.prompt([
-                    {
-                        type: "list",
-                        name: "updateEmp",
-                        choices: function () {
-                            var empId = [];
-                            for (var i = 0; i < results.length; i++) {
-                                empId.push(results[i].empId)
-                            }
-                            return empId;
-                        },
-                        message: "Select employee to update",
-                    },
-                    {
-                        name: "role",
-                        type: "list",
-                        message: "What is the employees role",
-                        choice: choiceRole()
-                    },
-                ]).then(function (data) {
+    db.query('SELECT * employee.last_name, role.title FROM employee JOIN role ON employee.role_id;', function (err, results) {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "updateEmp",
+                choices: function () {
+                    var empId = [];
+                    for (var i = 0; i < results.length; i++) {
+                        empId.push(results[i].empId)
+                    }
+                    return empId;
+                },
+                message: "Select employee to update",
+            },
+            {
+                name: "role",
+                type: "list",
+                message: "What is the employees role",
+                choice: choiceRole()
+            },
+        ]).then(function (data) {
 
-                    var roleId = choiceRole().indexOf(data.role) + 1
-                    db.query('Update employee SET ?', {
-                        id: data.updateEmp,
-                        role_id: data.roleId
-                    },
+            var roleId = choiceRole().indexOf(data.role) + 1
+            db.query('Update employee SET ?', {
+                id: data.updateEmp,
+                role_id: data.roleId
+            },
 
-                        function (err) {
-                            console.table(err)
-                            init()
-                        })
+                function (err) {
+                    console.table(err)
+                    init()
+                });
 
-                })
-            })
-        }
+        })
+    })
+}
 
 function choiceRole() {
-            db.query('SELECT title FROM role', function (err, results) {
-                for (var i = 0; i < results.length; i++) {
-                    roleArray.push(results[i].title);
-                }
-            })
-            return roleArray;
+    db.query('SELECT title FROM role', function (err, results) {
+        for (var i = 0; i < results.length; i++) {
+            roleArray.push(results[i].title);
         }
+    })
+    return roleArray;
+}
 
 function choiceManager() {
-            db.query('SELECT first_name, last_name FROM employee WHERE manager_id IS NULL', function (err, results) {
-                for (var i = 0; i < results.length; i++) {
-                    managerArray.push(results[i].first_name);
-                }
-            })
-            return managerArray;
+    db.query('SELECT first_name, last_name FROM employee WHERE manager_id IS NULL', function (err, results) {
+        for (var i = 0; i < results.length; i++) {
+            managerArray.push(results[i].first_name);
         }
+    })
+    return managerArray;
+}
 
 init()
