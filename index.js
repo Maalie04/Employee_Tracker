@@ -1,9 +1,11 @@
+//install inquirer, mysql, and table packages
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const table = require('console.table');
+//
 const managerArray = [];
 const roleArray = [];
-
+//connect to mysql server and sql database
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -26,7 +28,8 @@ function init() {
                 "Update Employee",
                 "Add Employee",
                 "Add Role",
-                "Add Department"
+                "Add Department",
+                "Exit"
             ]
         }
     ]).then(function (tracker) {
@@ -52,6 +55,8 @@ function init() {
             case "Add Department":
                 addDepartment()
                 break;
+            case "Exit":
+                db.end();
         }
     })
 }
@@ -114,12 +119,14 @@ function  addEmp() {
             name: "role",
             type: "list",
             message: "add role",
+            //runs choiceRole function, which will return all the roles in the array
             choices: choiceRole()
         },
         {
             name: "manager",
             type: "list",
             message: "Who is the manager? ",
+            //runs choiceManager function, which will return all the managers in the array
             choices: choiceManager()
         }
     ]).then(function (data) {
