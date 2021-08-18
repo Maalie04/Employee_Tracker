@@ -178,41 +178,40 @@ function addRole() {
 
 }
 function updateEmp() {
-    db.query('SELECT * employee.last_name, role.title FROM employee JOIN role ON employee.role_id;', function (err, results) {
+    db.query('SELECT * FROM employee JOIN role ON employee.role_id = role.id;', function (err, results) {
         inquirer.prompt([
             {
                 type: "list",
-                name: "updateEmp",
+                name: "updateId",
+                message: "Select an Employee to Update: ",
                 choices: function () {
-                    var empId = [];
+                    var empId = []
                     for (var i = 0; i < results.length; i++) {
-                        empId.push(results[i].empId)
+                        empId.push(results[i].last_name)
                     }
                     return empId;
                 },
-                message: "Select employee to update",
             },
             {
                 name: "role",
                 type: "list",
                 message: "What is the employees role",
-                choice: choiceRole()
+                choices: choiceRole()
             },
         ]).then(function (data) {
 
             var roleId = choiceRole().indexOf(data.role) + 1
-            db.query('Update employee SET ?', {
-                id: data.updateEmp,
+            db.query('Update employee SET WHERE ?', {
+                id: data.updateId,
                 role_id: data.roleId
             },
 
                 function (err) {
-                    console.table(err)
+                    console.table(data)
                     init()
-                });
-
+                })
         })
-    })
+    });
 }
 
 function choiceRole() {
