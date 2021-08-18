@@ -37,3 +37,8 @@ This Employee Tracker app can be used to view employees, departments, roles with
 
 # Screenshots
 
+![alt image](./assets/2021-08-17(4).png)
+![alt image](./assets/2021-08-17.png)
+
+Walkthrough
+>https://drive.google.com/file/d/1xB4vAPp-TWtYeXnTiUdiKhofghEVgF_6/view?usp=sharing
